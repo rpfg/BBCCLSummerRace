@@ -188,6 +188,20 @@
   text-align: center;
 }
 
+.page-title {
+  margin-top: 20px;
+  padding: 15px 20px;
+  font-size: 2.5em;
+  font-weight: bold;
+  text-align: center;
+  background: linear-gradient(to right, #007f00, #00b300);
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 2px #003300;
+}
+
 /* Add the following media query for mobile-friendly layout */
 @media (max-width: 768px) {
   /* Stack tabs vertically */
@@ -256,6 +270,8 @@
   color: #004d00;
 }
 
+
+
 }
 
 
@@ -275,6 +291,9 @@
     <button class="tab" onclick="showTab('funrace2')">Funrace 2</button>
     <button class="tab" onclick="showTab('funrace3')">Funrace 3</button>
   </div>
+
+  <!-- Title Below Navigation -->
+<h1 class="page-title">BBC CL SUMMER RACE 2025</h1>
 
   <!-- Tab Content -->
   <div id="derby" class="tab-content active">
@@ -314,11 +333,11 @@
     <!-- Search Bar for FUNRACE3 -->
     <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
     <p class="search-message">Speed Sum</p>
-    <input type="text" id="superfunraceSearch" class="searchInput" onkeyup="filterTable('superfunrace')" placeholder="Search results Super Funrace...">
-    <table class="results-table" id="superfunraceTable">
-      <thead id="superfunraceHeader"></thead>
-      <tbody id="superfunraceBody"></tbody>
-    </table>
+    <input type="text" id="funrace3Search" class="searchInput" onkeyup="filterTable('superfunrace')" placeholder="Search results Super Funrace...">
+    <table class="results-table" id="funrace3Table">
+      <thead id="funrace3Header"></thead>
+      <tbody id="funrace3Body"></tbody>
+    </table>   
   </div>
 
 
@@ -361,7 +380,7 @@ let raceDataStorage = {}; // Stores all fetched race data
       'Derby': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'DERBY' },
       'FUNRACE1': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'FUNRACE1' },
       'FUNRACE2': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'FUNRACE2' },
-      'FUNREACE3': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'FUNRACE3' },
+      'FUNRACE3': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'FUNRACE3' },
          };
 
     let raceData = {};
@@ -390,7 +409,7 @@ Object.keys(sheetDetails).forEach(sheet => {
         displayRaceResults('derby', raceData.Derby);
         displayRaceResults('funrace1', raceData.FUNRACE1);
         displayRaceResults('funrace2', raceData.FUNRACE2);
-        displayRaceResults('superfunrace', raceData.FUNRACE3);
+        displayRaceResults('funrace3', raceData.FUNRACE3);
 
 
         document.getElementById('loadingIndicator').style.display = 'none';
