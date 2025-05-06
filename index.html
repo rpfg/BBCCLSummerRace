@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BBC Cavite Laguna - Race Results</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Header Style */
+    header {
+      background-color: black;
+      background-image: url('https://raw.githubusercontent.com/rpfg/Race-Results/refs/heads/main/Images/BBC.png');
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 25vh;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      background-color: #004d00;
+      padding: 10px;
+    }
+
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      color: white;
+      border: none;
+      background: none;
+      font-size: 1em;
+    }
+
+    .tab.active {
+  background-color: #007500;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+    .tab-content {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Table Style */
+    .results-table {
+      width: 80%;
+      margin: 10px auto;
+      border-collapse: collapse;
+      table-layout: auto;
+      min-width: max-content;
+    }
+
+    .results-table th, .results-table td {
+      border: 1px solid #ddd;
+      padding: 12px 8px;
+      text-align: center;
+      word-wrap: break-word;
+      white-space: normal;
+      overflow-wrap: break-word;
+    }
+
+    .results-table th {
+      background-color: #004d00;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .results-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .results-table tr:nth-child(odd) {
+      background-color: #ffffff;
+    }
+
+    .results-table tr:hover {
+      background-color: #e0e0e0;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #004d00;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .searchInput {
+  margin: 20px auto;
+  width: 80%;
+  max-width: 500px;
+  padding: 10px;
+  font-size: 1.2em;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+
+/* Style for displaying tables side by side with space between them */
+.tables-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Adds space between tables */
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+/* Add space between Patibayan tables */
+.table-container {
+  width: 45%;
+  text-align: center;
+  margin-bottom: 20px; /* Adds space between the rows of Patibayan tables */
+}
+
+/* Ensure Patibayan 1 has space on the right */
+.table-container:first-child {
+  margin-right: 20px; /* Creates space between the two Patibayan tables */
+}
+
+
+
+    /* Title for Patibayan 1 and 2 */
+    .patibayan-title {
+      text-align: center;
+    }
+
+
+
+/* Center the search box below the navigation bar */
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; /* Space between the nav bar and search box */
+  margin-bottom: 20px; /* Space between search box and tables */
+}
+
+
+
+/* Style for displaying tables side by side with space between them */
+.tables-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Adds space between tables */
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.table-container {
+  width: 45%;
+  text-align: center;
+  margin-bottom: 20px; /* Adds space between the rows of Patibayan tables */
+}
+
+/* Ensure Patibayan 1 has space on the right */
+.table-container:first-child {
+  margin-right: 20px; /* Creates space between the two Patibayan tables */
+}
+
+/* Title for Patibayan 1 and 2 */
+.patibayan-title {
+  text-align: center;
+}
+
+/* Add the following media query for mobile-friendly layout */
+@media (max-width: 768px) {
+  /* Stack tabs vertically */
+  .tabs {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Style for the tables container (side by side to stacked vertically) */
+  .tables-container {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .table-container {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  /* Ensure the header and title fonts are readable on mobile */
+  header {
+    height: 30vh; /* Give more space for the header on mobile */
+  }
+
+  /* Make the header text larger on mobile */
+  h1 {
+    font-size: 1.5em;
+  }
+
+  /* Search box input width for mobile */
+  .searchInput {
+    width: 100%; /* Make the search input take full width */
+    font-size: 1.1em;
+    padding: 12px;
+  }
+
+  /* Adjust the footer */
+  footer {
+    padding: 15px 10px;
+  }
+  
+  /* Adjust the tab buttons for smaller screens */
+  .tab {
+    font-size: 1em;
+    padding: 8px;
+  }
+  
+  /* Ensure the race results table is scrollable horizontally */
+  .results-table {
+    overflow-x: auto;
+    display: block;
+  }
+
+  .results-table th, .results-table td {
+    word-wrap: break-word;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
+
+  .search-message {
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #004d00;
+}
+
+}
+
+
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header></header>
+
+  <!-- Title -->
+  
+  <!-- Tabs for Navigation -->
+  <div class="tabs">
+    <button class="tab" onclick="showTab('derby')">Derby</button>
+    <button class="tab" onclick="showTab('funrace1')">Funrace 1</button>
+    <button class="tab" onclick="showTab('funrace2')">Funrace 2</button>
+    <button class="tab" onclick="showTab('funrace3')">Funrace 3</button>
+  </div>
+
+  <!-- Tab Content -->
+  <div id="derby" class="tab-content active">
+    <!-- Search Bar for Derby -->
+    <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
+    <p class="search-message">Points Over Speed</p>
+    <input type="text" id="derbySearch" class="searchInput" onkeyup="filterTable('derby')" placeholder="Search results Derby...">
+    <table class="results-table" id="derbyTable">
+      <thead id="derbyHeader"></thead>
+      <tbody id="derbyBody"></tbody>
+    </table>
+  </div>
+
+  <div id="funrace1" class="tab-content">
+    <!-- Search Bar for FUNRACE1 -->
+    <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
+    <p class="search-message">Speed Sum</p>
+    <input type="text" id="funrace1Search" class="searchInput" onkeyup="filterTable('funrace1')" placeholder="Search results Funrace 1...">
+    <table class="results-table" id="funrace1Table">
+      <thead id="funrace1Header"></thead>
+      <tbody id="funrace1Body"></tbody>
+    </table>
+  </div>
+
+  <div id="funrace2" class="tab-content">
+    <!-- Search Bar for FUNRACE2 -->
+    <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
+    <p class="search-message">Speed Sum</p>
+    <input type="text" id="funrace2Search" class="searchInput" onkeyup="filterTable('funrace2')" placeholder="Search results Funrace 2...">
+    <table class="results-table" id="funrace2Table">
+      <thead id="funrace2Header"></thead>
+      <tbody id="funrace2Body"></tbody>
+    </table>
+  </div>
+
+  <div id="funrace3" class="tab-content">
+    <!-- Search Bar for FUNRACE3 -->
+    <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
+    <p class="search-message">Speed Sum</p>
+    <input type="text" id="superfunraceSearch" class="searchInput" onkeyup="filterTable('superfunrace')" placeholder="Search results Super Funrace...">
+    <table class="results-table" id="superfunraceTable">
+      <thead id="superfunraceHeader"></thead>
+      <tbody id="superfunraceBody"></tbody>
+    </table>
+  </div>
+
+
+
+  <!-- Footer -->
+  <footer>
+    <p>Follow us on social media:</p>
+    <a href="https://www.facebook.com/profile.php?id=61561642689457" target="_blank">Facebook</a>
+  </footer>
+
+  <!-- Loading Indicator -->
+  <div id="loadingIndicator" style="display: none;">
+    <img src="https://media.tenor.com/zxJMTNCOhbkAAAAM/pegion.gif" alt="Loading...">
+  </div>
+
+  <!-- No Data Message -->
+  <p id="noDataMessage" style="display: none;">No race results available.</p>
+
+  <!-- Script to Fetch and Display Data -->
+  <script>
+
+let raceDataStorage = {}; // Stores all fetched race data
+
+    // Function to show a specific tab
+    function showTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  document.getElementById(tabId).classList.add('active');
+
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  document.querySelector(`button[onclick="showTab('${tabId}')"]`).classList.add('active');
+}
+
+
+    const apiKey = 'AIzaSyDnQPBVIY-hChWThux9R8WknqvuDHsDFog'; // Replace with your API key
+    const sheetDetails = {
+      'Derby': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'DERBY' },
+      'FUNRACE1': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'FUNRACE1' },
+      'FUNRACE2': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'FUNRACE2' },
+      'FUNREACE3': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'FUNRACE3' },
+         };
+
+    let raceData = {};
+Object.keys(sheetDetails).forEach(sheet => {
+  raceData[sheet] = [];
+});
+
+
+    // Fetch race data from Google Sheets
+    async function fetchRaceData() {
+      try {
+        document.getElementById('loadingIndicator').style.display = 'block';
+        document.getElementById('noDataMessage').style.display = 'none';
+
+        const requests = Object.keys(sheetDetails).map(sheet => 
+          fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetDetails[sheet].sheetId}/values/${sheetDetails[sheet].sheetName}?key=${apiKey}`)
+            .then(response => response.json())
+            .then(data => {
+              raceData[sheet] = data.values;
+            })
+            .catch(error => console.error(error))
+        );
+
+        await Promise.all(requests);
+
+        displayRaceResults('derby', raceData.Derby);
+        displayRaceResults('funrace1', raceData.FUNRACE1);
+        displayRaceResults('funrace2', raceData.FUNRACE2);
+        displayRaceResults('superfunrace', raceData.FUNRACE3);
+
+
+        document.getElementById('loadingIndicator').style.display = 'none';
+        if (Object.values(raceData).some(data => data.length === 0)) {
+          document.getElementById('noDataMessage').style.display = 'block';
+        }
+      } catch (error) {
+  document.getElementById('loadingIndicator').style.display = 'none';
+  document.getElementById('noDataMessage').style.display = 'block';
+  console.error('Error fetching data:', error);
+}
+
+    }
+
+    fetchRaceData();
+
+    // Function to display the fetched data in the respective tables
+    function displayRaceResults(raceType, raceData) {
+    const tableBody = document.getElementById(raceType + 'Body');
+    const tableHeader = document.getElementById(raceType + 'Header');
+    tableBody.innerHTML = '';
+    tableHeader.innerHTML = '';
+
+    if (raceData.length > 0) {
+        // Store all data for filtering
+        raceDataStorage[raceType] = raceData.slice(1); // Exclude headers
+
+        // Set up table headers
+        const headers = raceData[0];
+        const headerRow = document.createElement('tr');
+        headers.forEach(header => {
+            const th = document.createElement('th');
+            th.textContent = header;
+            headerRow.appendChild(th);
+        });
+        tableHeader.appendChild(headerRow);
+
+        // Show only first 20 rows initially
+        updateTableDisplay(raceType, raceDataStorage[raceType]);
+    }
+}
+
+function updateTableDisplay(raceType, filteredData) {
+    const tableBody = document.getElementById(raceType + 'Body');
+    tableBody.innerHTML = '';
+
+    const rowsToShow = filteredData.slice(0, 50); // Show only 20 rows
+
+    rowsToShow.forEach(rowData => {
+        const row = document.createElement('tr');
+        rowData.forEach(cellData => {
+            const td = document.createElement('td');
+            td.textContent = cellData;
+            row.appendChild(td);
+        });
+        tableBody.appendChild(row);
+    });
+}
+
+
+
+    // Function to filter data in the tables
+    function filterTable(raceType) {
+    const searchInput = document.getElementById(raceType + 'Search').value.toLowerCase();
+
+    // Get the full dataset stored earlier
+    const fullData = raceDataStorage[raceType] || [];
+
+    // Filter the full dataset
+    const filteredData = fullData.filter(row =>
+        row.some(cell => cell.toLowerCase().includes(searchInput))
+    );
+
+    // Update the table to show only the first 20 results
+    updateTableDisplay(raceType, filteredData);
+}
+
+
+   // Function to filter both Patibayan tables
+// Function to filter both Patibayan tables
+// Function to filter both Patibayan tables with a single search box
+function filterPatibayanTables() {
+    const searchInput = document.getElementById('patibayanSearch').value.toLowerCase();
+
+    // Get the full dataset for both Patibayan tables
+    const patibayan1Data = raceDataStorage['Patibayan1'] || [];
+    const patibayan2Data = raceDataStorage['Patibayan2'] || [];
+
+    // Filter both tables
+    const filteredPatibayan1 = patibayan1Data.filter(row =>
+        row.some(cell => cell.toLowerCase().includes(searchInput))
+    );
+    const filteredPatibayan2 = patibayan2Data.filter(row =>
+        row.some(cell => cell.toLowerCase().includes(searchInput))
+    );
+
+    // Update display to show only the first 50 results for each
+    updateTableDisplay('patibayan1', filteredPatibayan1);
+    updateTableDisplay('patibayan2', filteredPatibayan2);
+}
+
+
+
+// Helper function to filter rows for a specific table
+function filterTableRows(tableBody, searchInput) {
+  const rows = tableBody.getElementsByTagName('tr');
+  Array.from(rows).forEach(row => {
+    const cells = row.getElementsByTagName('td');
+    let rowContainsSearch = false;
+
+    Array.from(cells).forEach(cell => {
+      if (cell.textContent.toLowerCase().includes(searchInput)) {
+        rowContainsSearch = true;
+      }
+    });
+
+    row.style.display = rowContainsSearch ? '' : 'none';
+  });
+
+  document.addEventListener("DOMContentLoaded", function() {
+  showTab('derby'); // Set Derby as default when page loads
+});
+
+}
+
+
+  </script>
+
+</body>
+</html>
