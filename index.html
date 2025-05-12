@@ -31,19 +31,36 @@
     }
 
     .tab {
-      padding: 10px 20px;
-      cursor: pointer;
-      color: white;
-      border: none;
-      background: none;
-      font-size: 1em;
-    }
-
-    .tab.active {
-  background-color: #007500;
-  font-weight: bold;
-  text-decoration: underline;
+  background-color: transparent;
+  border: 2px solid #ffffff; /* Outline even when inactive */
+  outline: none;
+  cursor: pointer;
+  padding: 12px 24px;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  margin: 5px;
+  color: #ffffff;
 }
+
+.tab:hover {
+  background-color: rgba(76, 175, 80, 0.1); /* Light green hover */
+}
+
+.tab.active {
+  background-color: #4CAF50;
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+  transform: scale(1.1);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+  border: 2px solid #388E3C;
+}
+
+
+
+
 
     .tab-content {
       display: none;
@@ -290,6 +307,8 @@
     <button class="tab" onclick="showTab('funrace1')">Funrace 1</button>
     <button class="tab" onclick="showTab('funrace2')">Funrace 2</button>
     <button class="tab" onclick="showTab('funrace3')">Funrace 3</button>
+    <button class="tab" onclick="showTab('ko6laps')">KO6LAPS</button>
+
   </div>
 
   <!-- Title Below Navigation -->
@@ -340,6 +359,17 @@
     </table>   
   </div>
 
+  <div id="ko6laps" class="tab-content">
+    <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
+    <p class="search-message">Speed Sum</p>
+    <input type="text" id="ko6lapsSearch" class="searchInput" onkeyup="filterTable('ko6laps')" placeholder="Search results KO6LAPS...">
+    <table class="results-table" id="ko6lapsTable">
+      <thead id="ko6lapsHeader"></thead>
+      <tbody id="ko6lapsBody"></tbody>
+    </table>
+  </div>
+  
+
 
 
   <!-- Footer -->
@@ -381,6 +411,8 @@ let raceDataStorage = {}; // Stores all fetched race data
       'FUNRACE1': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'FUNRACE1' },
       'FUNRACE2': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'FUNRACE2' },
       'FUNRACE3': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'FUNRACE3' },
+      'KO6LAPS': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'KO6LAPS' },
+
          };
 
     let raceData = {};
@@ -410,6 +442,9 @@ Object.keys(sheetDetails).forEach(sheet => {
         displayRaceResults('funrace1', raceData.FUNRACE1);
         displayRaceResults('funrace2', raceData.FUNRACE2);
         displayRaceResults('funrace3', raceData.FUNRACE3);
+        displayRaceResults('ko6laps', raceData.KO6LAPS);
+
+        
 
 
         document.getElementById('loadingIndicator').style.display = 'none';
