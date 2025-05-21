@@ -301,16 +301,15 @@
 
   <!-- Title -->
   
-  <!-- Tabs for Navigation -->
-  <div class="tabs">
-    <button class="tab" onclick="showTab('derby')">Derby</button>
-    <button class="tab" onclick="showTab('funrace1')">Funrace 1</button>
-    <button class="tab" onclick="showTab('funrace2')">Funrace 2</button>
-    <button class="tab" onclick="showTab('funrace3')">Funrace 3</button>
-    <button class="tab" onclick="showTab('ko6laps')">KO6LAPS</button>
-    <button class="tab" onclick="showTab('ko5laps')">KO5LAPS</button>
+<div class="tabs">
+  <button class="tab active" onclick="showTab('derby')">Derby</button>
+  <button class="tab" onclick="showTab('funrace1')">Funrace 1</button>
+  <button class="tab" onclick="showTab('funrace2')">Funrace 2</button>
+  <button class="tab" onclick="showTab('funrace3')">Funrace 3</button>
+  <button class="tab" onclick="showTab('ko6laps')">KO6LAPS</button>
+  <button class="tab" onclick="showTab('ko5laps')">KO5LAPS</button>
+</div>
 
-  </div>
 
   <!-- Title Below Navigation -->
 <h1 class="page-title">BBC CL SUMMER RACE 2025</h1>
@@ -426,9 +425,11 @@ let raceDataStorage = {}; // Stores all fetched race data
          };
 
     let raceData = {};
-Object.keys(sheetDetails).forEach(sheet => {
-  raceData[sheet] = [];
+// Store fetched data in raceDataStorage for filtering use
+Object.keys(raceData).forEach(key => {
+  raceDataStorage[key.toLowerCase()] = raceData[key]; // convert keys to lowercase to match usage
 });
+
 
 
     // Fetch race data from Google Sheets
@@ -446,14 +447,20 @@ Object.keys(sheetDetails).forEach(sheet => {
             .catch(error => console.error(error))
         );
 
-        await Promise.all(requests);
+await Promise.all(requests);
 
-        displayRaceResults('derby', raceData.Derby);
-        displayRaceResults('funrace1', raceData.FUNRACE1);
-        displayRaceResults('funrace2', raceData.FUNRACE2);
-        displayRaceResults('funrace3', raceData.FUNRACE3);
-        displayRaceResults('ko6laps', raceData.KO6LAPS);
-        displayRaceResults('ko5laps', raceData.KO5LAPS);
+// Save fetched data for filtering
+Object.keys(raceData).forEach(key => {
+  raceDataStorage[key.toLowerCase()] = raceData[key];
+});
+
+displayRaceResults('derby', raceData.Derby);
+displayRaceResults('funrace1', raceData.FUNRACE1);
+displayRaceResults('funrace2', raceData.FUNRACE2);
+displayRaceResults('funrace3', raceData.FUNRACE3);
+displayRaceResults('ko6laps', raceData.KO6LAPS);
+displayRaceResults('ko5laps', raceData.KO5LAPS);
+
 
         
 
@@ -499,7 +506,7 @@ function updateTableDisplay(raceType, filteredData) {
     const tableBody = document.getElementById(raceType + 'Body');
     tableBody.innerHTML = '';
 
-    const rowsToShow = filteredData.slice(0, 50); // Show only 20 rows
+    const rowsToShow = filteredData.slice(0, 50); // Show only 50 rows
 
     rowsToShow.forEach(rowData => {
         const row = document.createElement('tr');
