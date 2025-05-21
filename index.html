@@ -308,6 +308,7 @@
     <button class="tab" onclick="showTab('funrace2')">Funrace 2</button>
     <button class="tab" onclick="showTab('funrace3')">Funrace 3</button>
     <button class="tab" onclick="showTab('ko6laps')">KO6LAPS</button>
+    <button class="tab" onclick="showTab('ko5laps')">KO5LAPS</button>
 
   </div>
 
@@ -369,7 +370,15 @@
     </table>
   </div>
   
-
+<div id="ko5laps" class="tab-content">
+    <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
+    <p class="search-message">Speed Sum</p>
+    <input type="text" id="ko5lapsSearch" class="searchInput" onkeyup="filterTable('ko5laps')" placeholder="Search results KO5LAPS...">
+    <table class="results-table" id="ko5lapsTable">
+      <thead id="ko5lapsHeader"></thead>
+      <tbody id="ko5lapsBody"></tbody>
+    </table>
+  </div>
 
 
   <!-- Footer -->
@@ -412,6 +421,7 @@ let raceDataStorage = {}; // Stores all fetched race data
       'FUNRACE2': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'FUNRACE2' },
       'FUNRACE3': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'FUNRACE3' },
       'KO6LAPS': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'KO6LAPS' },
+      'KO5LAPS': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'KO5LAPS' },
 
          };
 
@@ -443,6 +453,7 @@ Object.keys(sheetDetails).forEach(sheet => {
         displayRaceResults('funrace2', raceData.FUNRACE2);
         displayRaceResults('funrace3', raceData.FUNRACE3);
         displayRaceResults('ko6laps', raceData.KO6LAPS);
+        displayRaceResults('ko5laps', raceData.KO5LAPS);
 
         
 
@@ -463,29 +474,26 @@ Object.keys(sheetDetails).forEach(sheet => {
 
     // Function to display the fetched data in the respective tables
     function displayRaceResults(raceType, raceData) {
-    const tableBody = document.getElementById(raceType + 'Body');
-    const tableHeader = document.getElementById(raceType + 'Header');
-    tableBody.innerHTML = '';
-    tableHeader.innerHTML = '';
+  const tableHeader = document.getElementById(`${raceType}Header`);
+  const tableBody = document.getElementById(`${raceType}Body`);
+  tableHeader.innerHTML = '';
+  tableBody.innerHTML = '';
 
-    if (raceData.length > 0) {
-        // Store all data for filtering
-        raceDataStorage[raceType] = raceData.slice(1); // Exclude headers
+  if (!raceData || raceData.length === 0) return;
 
-        // Set up table headers
-        const headers = raceData[0];
-        const headerRow = document.createElement('tr');
-        headers.forEach(header => {
-            const th = document.createElement('th');
-            th.textContent = header;
-            headerRow.appendChild(th);
-        });
-        tableHeader.appendChild(headerRow);
+  // Insert headers
+  const headerRow = raceData[0];
+  const headerHTML = headerRow.map(header => `<th>${header}</th>`).join('');
+  tableHeader.innerHTML = `<tr>${headerHTML}</tr>`;
 
-        // Show only first 20 rows initially
-        updateTableDisplay(raceType, raceDataStorage[raceType]);
-    }
+  // Insert first 50 rows only
+  for (let i = 1; i < Math.min(raceData.length, 51); i++) {
+    const row = raceData[i];
+    const rowHTML = row.map(cell => `<td>${cell}</td>`).join('');
+    tableBody.innerHTML += `<tr>${rowHTML}</tr>`;
+  }
 }
+
 
 function updateTableDisplay(raceType, filteredData) {
     const tableBody = document.getElementById(raceType + 'Body');
