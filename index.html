@@ -308,6 +308,7 @@
   <button class="tab" onclick="showTab('funrace3')">Funrace 3</button>
   <button class="tab" onclick="showTab('ko6laps')">KO6LAPS</button>
   <button class="tab" onclick="showTab('ko5laps')">KO5LAPS</button>
+  <button class="tab" onclick="showTab('ko4laps')">KO4LAPS</button>
 </div>
 
 
@@ -379,6 +380,16 @@
     </table>
   </div>
 
+  <div id="ko4laps" class="tab-content">
+    <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
+    <p class="search-message">Speed Sum</p>
+    <input type="text" id="ko4lapsSearch" class="searchInput" onkeyup="filterTable('ko4laps')" placeholder="Search results KO4LAPS...">
+    <table class="results-table" id="ko5lapsTable">
+      <thead id="ko4lapsHeader"></thead>
+      <tbody id="ko4lapsBody"></tbody>
+    </table>
+  </div>
+
 
   <!-- Footer -->
   <footer>
@@ -421,6 +432,7 @@ let raceDataStorage = {}; // Stores all fetched race data
       'FUNRACE3': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'FUNRACE3' },
       'KO6LAPS': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'KO6LAPS' },
       'KO5LAPS': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'KO5LAPS' },
+      'KO4LAPS': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'KO4LAPS' },
 
          };
 
@@ -460,7 +472,7 @@ displayRaceResults('funrace2', raceData.FUNRACE2);
 displayRaceResults('funrace3', raceData.FUNRACE3);
 displayRaceResults('ko6laps', raceData.KO6LAPS);
 displayRaceResults('ko5laps', raceData.KO5LAPS);
-
+displayRaceResults('ko4laps', raceData.KO4LAPS);
 
         
 
