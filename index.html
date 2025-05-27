@@ -220,18 +220,10 @@
 }
 
 /* Add the following media query for mobile-friendly layout */
-@media (max-width: 600px) {
-  /* Stack tabs vertically */
-  .tabs {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-
-  /* Style for the tables container (side by side to stacked vertically) */
+@media (max-width: 768px) {
   .tabs {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr); /* 3 columns on mobile */
     gap: 10px;
   }
 
