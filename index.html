@@ -53,7 +53,7 @@
   color: white;
   font-weight: 700;
   font-size: 18px;
-  transform: scale(1.1);
+  transform: scale(1);
   box-shadow: 0 6px 14px rgba(0,0,0,0.25);
   border: 2px solid #388E3C;
 }
@@ -226,18 +226,23 @@
     flex-direction: column;
     gap: 10px;
   }
+  
 
   /* Style for the tables container (side by side to stacked vertically) */
+@media (max-width: 768px) {
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
   .tables-container {
     flex-direction: column;
     width: 100%;
     gap: 10px;
   }
+}
 
-  .table-container {
-    width: 100%;
-    margin-bottom: 10px;
-  }
 
   /* Ensure the header and title fonts are readable on mobile */
   header {
@@ -280,14 +285,58 @@
   }
 
   .search-message {
-  font-size: 1.2em;
-  font-weight: bold;
+  font-size: .8em;
+  font-weight: normal;
   text-align: center;
   margin-bottom: 10px;
-  color: #004d00;
+  color: #757575;
 }
 
+.table-scroll {
+  width: 100%;
+  overflow-x: scroll; /* always show scrollbar */
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
 
+.table-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-scroll::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.table-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+#fixedScrollbarContainer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 16px;
+  background: #f1f1f1;
+  z-index: 999;
+}
+
+#fixedScrollbar {
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+#fakeScroll {
+  height: 1px;
+}
+
+.table-responsive {
+  overflow-x: auto;       /* Enable horizontal scroll */
+  -webkit-overflow-scrolling: touch;  /* Smooth scrolling on iOS */
+  width: 100%;            /* Take full width */
+}
 
 }
 
@@ -316,16 +365,20 @@
 <h1 class="page-title">BBC CL SUMMER RACE 2025</h1>
 
   <!-- Tab Content -->
-  <div id="derby" class="tab-content active">
-    <!-- Search Bar for Derby -->
-    <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
-    <p class="search-message">Points Over Speed</p>
-    <input type="text" id="derbySearch" class="searchInput" onkeyup="filterTable('derby')" placeholder="Search results Derby...">
+<div id="derby" class="tab-content active">
+  <!-- Search Bar for Derby -->
+  <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
+  <p class="search-message">Points Over Speed</p>
+  <input type="text" id="derbySearch" class="searchInput" onkeyup="filterTable('derby')" placeholder="Search results Derby...">
+  
+  <div class="table-responsive">
     <table class="results-table" id="derbyTable">
       <thead id="derbyHeader"></thead>
       <tbody id="derbyBody"></tbody>
     </table>
   </div>
+</div>
+
 
   <div id="funrace1" class="tab-content">
     <!-- Search Bar for FUNRACE1 -->
@@ -388,6 +441,8 @@
       <thead id="ko4lapsHeader"></thead>
       <tbody id="ko4lapsBody"></tbody>
     </table>
+
+
   </div>
 
 
@@ -396,6 +451,14 @@
     <p>Follow us on social media:</p>
     <a href="https://www.facebook.com/profile.php?id=61561642689457" target="_blank">Facebook</a>
   </footer>
+
+<div id="fixedScrollbarContainer">
+  <div id="fixedScrollbar">
+    <div id="fakeScroll"></div>
+  </div>
+</div>
+
+
 
   <!-- Loading Indicator -->
   <div id="loadingIndicator" style="display: none;">
@@ -591,9 +654,112 @@ function filterTableRows(tableBody, searchInput) {
     row.style.display = rowContainsSearch ? '' : 'none';
   });
 
-  document.addEventListener("DOMContentLoaded", function() {
-  showTab('derby'); // Set Derby as default when page loads
+  document.addEventListener('DOMContentLoaded', () => {
+  const fixedScrollbarContainer = document.getElementById('fixedScrollbarContainer');
+  const fixedScrollbar = document.getElementById('fixedScrollbar');
+  const fakeScroll = document.getElementById('fakeScroll');
+
+  function updateFixedScrollbar() {
+    // Find the currently visible tab-content with a .table-scroll div
+    const visibleTab = [...document.querySelectorAll('.tab-content')]
+      .find(tab => tab.classList.contains('active'));
+    if (!visibleTab) {
+      fixedScrollbarContainer.style.display = 'none';
+      return;
+    }
+
+    const tableScrollDiv = visibleTab.querySelector('.table-scroll');
+    if (!tableScrollDiv) {
+      fixedScrollbarContainer.style.display = 'none';
+      return;
+    }
+
+    // Show the fixed scrollbar container
+    fixedScrollbarContainer.style.display = 'block';
+
+    // Set the fakeScroll width to the scrollWidth of the table container
+    fakeScroll.style.width = tableScrollDiv.scrollWidth + 'px';
+
+    // Sync scrollbar positions
+    fixedScrollbar.scrollLeft = tableScrollDiv.scrollLeft;
+
+    // Remove any previous listeners to avoid duplicates
+    tableScrollDiv.onscroll = null;
+    fixedScrollbar.onscroll = null;
+
+    // When user scrolls table, move fixed scrollbar
+    tableScrollDiv.onscroll = () => {
+      fixedScrollbar.scrollLeft = tableScrollDiv.scrollLeft;
+    };
+
+    // When user scrolls fixed scrollbar, move table
+    fixedScrollbar.onscroll = () => {
+      tableScrollDiv.scrollLeft = fixedScrollbar.scrollLeft;
+    };
+  }
+
+  // Call on load
+  updateFixedScrollbar();
+
+  // Also update when tabs change (assuming you have a function that switches .active class)
+  // You can modify this event to your tab switching logic.
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.addEventListener('transitionend', updateFixedScrollbar);
+  });
+
+  // If you have a tab switching function, call updateFixedScrollbar after switching tabs
+  // Example (replace with your actual tab switch handler):
+  window.updateTabs = function(tabId) {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    updateFixedScrollbar();
+  };
 });
+
+
+const fixedScrollbarContainer = document.getElementById("fixedScrollbarContainer");
+  const fixedScrollbar = document.getElementById("fixedScrollbar");
+  const fakeScroll = document.getElementById("fakeScroll");
+
+  function syncScrollbar(tableId) {
+    const tableWrapper = document.querySelector(`#${tableId}`).closest(".table-container");
+    const tableScroll = tableWrapper.querySelector(".table-scroll");
+
+    // Match scrollbar width
+    fakeScroll.style.width = tableScroll.scrollWidth + "px";
+
+    // Sync scrolling both ways
+    fixedScrollbar.onscroll = () => {
+      tableScroll.scrollLeft = fixedScrollbar.scrollLeft;
+    };
+    tableScroll.onscroll = () => {
+      fixedScrollbar.scrollLeft = tableScroll.scrollLeft;
+    };
+
+    // Show scrollbar
+    fixedScrollbarContainer.style.display = "block";
+  }
+
+  function hideScrollbar() {
+    fixedScrollbarContainer.style.display = "none";
+  }
+
+  // Example tab switching handler (adjust to your tab logic)
+  function showTab(tabId, tableId) {
+    // Hide all tabs
+    document.querySelectorAll(".tab-content").forEach(tab => tab.style.display = "none");
+    // Show selected tab
+    document.getElementById(tabId).style.display = "block";
+
+    if (tableId) {
+      syncScrollbar(tableId);
+    } else {
+      hideScrollbar();
+    }
+  }
+
+  // Example default show
+  showTab('derbyTab', 'derbyTable');
 
 }
 
