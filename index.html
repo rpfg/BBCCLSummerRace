@@ -219,7 +219,6 @@
   text-shadow: 1px 1px 2px #003300;
 }
 
-/* Add the following media query for mobile-friendly layout */
 @media (max-width: 768px) {
   .tabs {
     display: grid;
@@ -376,10 +375,13 @@
     <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
     <p class="search-message">Speed Sum</p>
     <input type="text" id="funrace1Search" class="searchInput" onkeyup="filterTable('funrace1')" placeholder="Search results Funrace 1...">
+  
+    <div class="table-responsive">
     <table class="results-table" id="funrace1Table">
       <thead id="funrace1Header"></thead>
       <tbody id="funrace1Body"></tbody>
     </table>
+   </div>
   </div>
 
   <div id="funrace2" class="tab-content">
@@ -387,10 +389,13 @@
     <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
     <p class="search-message">Speed Sum</p>
     <input type="text" id="funrace2Search" class="searchInput" onkeyup="filterTable('funrace2')" placeholder="Search results Funrace 2...">
+  
+    <div class="table-responsive">
     <table class="results-table" id="funrace2Table">
       <thead id="funrace2Header"></thead>
       <tbody id="funrace2Body"></tbody>
     </table>
+   </div>
   </div>
 
   <div id="funrace3" class="tab-content">
@@ -398,43 +403,55 @@
     <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
     <p class="search-message">Speed Sum</p>
     <input type="text" id="funrace3Search" class="searchInput" onkeyup="filterTable('funrace3')" placeholder="Search results Funrace 3...">
+    
+   <div class="table-responsive">
     <table class="results-table" id="funrace3Table">
       <thead id="funrace3Header"></thead>
       <tbody id="funrace3Body"></tbody>
-    </table>   
+    </table> 
+   </div>  
   </div>
 
   <div id="ko6laps" class="tab-content">
     <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
     <p class="search-message">Speed Sum</p>
     <input type="text" id="ko6lapsSearch" class="searchInput" onkeyup="filterTable('ko6laps')" placeholder="Search results KO6LAPS...">
+
+   <div class="table-responsive">
     <table class="results-table" id="ko6lapsTable">
       <thead id="ko6lapsHeader"></thead>
       <tbody id="ko6lapsBody"></tbody>
     </table>
+   </div>
   </div>
   
 <div id="ko5laps" class="tab-content">
     <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
     <p class="search-message">Speed Sum</p>
     <input type="text" id="ko5lapsSearch" class="searchInput" onkeyup="filterTable('ko5laps')" placeholder="Search results KO5LAPS...">
+   
+    <div class="table-responsive">
     <table class="results-table" id="ko5lapsTable">
       <thead id="ko5lapsHeader"></thead>
       <tbody id="ko5lapsBody"></tbody>
     </table>
+   </div>
   </div>
+  
 
   <div id="ko4laps" class="tab-content">
     <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
     <p class="search-message">Speed Sum</p>
     <input type="text" id="ko4lapsSearch" class="searchInput" onkeyup="filterTable('ko4laps')" placeholder="Search results KO4LAPS...">
+   
+    <div class="table-responsive">
     <table class="results-table" id="ko4lapsTable">
       <thead id="ko4lapsHeader"></thead>
       <tbody id="ko4lapsBody"></tbody>
     </table>
-
-
+   </div>
   </div>
+  
 
 
   <!-- Footer -->
@@ -736,18 +753,19 @@ const fixedScrollbarContainer = document.getElementById("fixedScrollbarContainer
   }
 
   // Example tab switching handler (adjust to your tab logic)
-  function showTab(tabId, tableId) {
-    // Hide all tabs
-    document.querySelectorAll(".tab-content").forEach(tab => tab.style.display = "none");
-    // Show selected tab
-    document.getElementById(tabId).style.display = "block";
+function showTab(tabId) {
+  // Remove active from all tabs
+  document.querySelectorAll('.tab-content').forEach(tab => {
+    tab.classList.remove('active');
+  });
 
-    if (tableId) {
-      syncScrollbar(tableId);
-    } else {
-      hideScrollbar();
-    }
+  // Add active to selected tab
+  const tab = document.getElementById(tabId);
+  if (tab) {
+    tab.classList.add('active');
   }
+}
+
 
   // Example default show
   showTab('derbyTab', 'derbyTable');
