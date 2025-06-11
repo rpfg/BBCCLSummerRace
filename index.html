@@ -352,6 +352,11 @@
   <button class="tab" onclick="showTab('ko6laps')">KO6LAPS</button>
   <button class="tab" onclick="showTab('ko5laps')">KO5LAPS</button>
   <button class="tab" onclick="showTab('ko4laps')">KO4LAPS</button>
+  <button class="tab" onclick="showTab('ko3laps')">KO3LAPS</button>
+  <button class="tab" onclick="showTab('ko2laps')">KO2LAPS</button>
+  <button class="tab" onclick="showTab('ko1lap')">KO1LAP</button>
+  <button class="tab" onclick="showTab('patibayan1')">PATIBAYAN1</button>
+  <button class="tab" onclick="showTab('patibayan2')">PATIBAYAN2</button>
 </div>
 
 
@@ -455,6 +460,68 @@
    </div>
   </div>
   
+  <div id="ko3laps" class="tab-content">
+    <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
+    <p class="search-message">Speed Sum</p>
+    <input type="text" id="ko3lapsSearch" class="searchInput" onkeyup="filterTable('ko3laps')" placeholder="Search results KO3LAPS...">
+   
+    <div class="table-responsive">
+    <table class="results-table" id="ko3lapsTable">
+      <thead id="ko3lapsHeader"></thead>
+      <tbody id="ko3lapsBody"></tbody>
+    </table>
+   </div>
+  </div>
+
+    <div id="ko2laps" class="tab-content">
+    <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
+    <p class="search-message">Speed Sum</p>
+    <input type="text" id="ko4lapsSearch" class="searchInput" onkeyup="filterTable('ko2laps')" placeholder="Search results KO2LAPS...">
+   
+    <div class="table-responsive">
+    <table class="results-table" id="ko4lapsTable">
+      <thead id="ko2lapsHeader"></thead>
+      <tbody id="ko2lapsBody"></tbody>
+    </table>
+   </div>
+  </div>
+
+  <div id="ko1lap" class="tab-content">
+    <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
+    <p class="search-message">Speed Sum</p>
+    <input type="text" id="ko1lapSearch" class="searchInput" onkeyup="filterTable('ko1lap')" placeholder="Search results KO1LAP...">
+   
+    <div class="table-responsive">
+    <table class="results-table" id="ko1lapTable">
+      <thead id="ko1lapHeader"></thead>
+      <tbody id="ko1lapBody"></tbody>
+    </table>
+   </div>
+  </div>
+
+    <div id="patibayan1" class="tab-content">
+    <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
+    <input type="text" id="patibayan1Search" class="searchInput" onkeyup="filterTable('patibayan1')" placeholder="Search results PATIBAYAN...">
+   
+    <div class="table-responsive">
+    <table class="results-table" id="patibayan1Table">
+      <thead id="patibayan1Header"></thead>
+      <tbody id="patibayan1Body"></tbody>
+    </table>
+   </div>
+  </div>
+  
+    <div id="patibayan2" class="tab-content">
+    <p class="search-message">Showing only first 50 rows. Use Search to find your Name or Pigeon ID</p>
+    <input type="text" id="patibayan2Search" class="searchInput" onkeyup="filterTable('patibayan2')" placeholder="Search results PATIBAYAN...">
+   
+    <div class="table-responsive">
+    <table class="results-table" id="patibayan2Table">
+      <thead id="patibayan2Header"></thead>
+      <tbody id="patibayan2Body"></tbody>
+    </table>
+   </div>
+  </div>
 
 
   <!-- Footer -->
@@ -507,6 +574,11 @@ let raceDataStorage = {}; // Stores all fetched race data
       'KO6LAPS': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'KO6LAPS' },
       'KO5LAPS': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'KO5LAPS' },
       'KO4LAPS': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'KO4LAPS' },
+      'KO3LAPS': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'KO3LAPS' },
+      'KO2LAPS': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'KO2LAPS' },
+      'KO1LAP': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'KO1LAP' },
+      'PATIBAYAN1': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'PATIBAYAN1' },
+      'PATIBAYAN2': { sheetId: '18RPbKA7bX-J51YMh2D2AwdamM0sE8rbmctOv4BLUFOo', sheetName: 'PATIBAYAN2' },
 
          };
 
@@ -547,6 +619,11 @@ displayRaceResults('funrace3', raceData.FUNRACE3);
 displayRaceResults('ko6laps', raceData.KO6LAPS);
 displayRaceResults('ko5laps', raceData.KO5LAPS);
 displayRaceResults('ko4laps', raceData.KO4LAPS);
+displayRaceResults('ko3laps', raceData.KO3LAPS);
+displayRaceResults('ko2laps', raceData.KO2LAPS);
+displayRaceResults('ko1lap', raceData.KO1LAP);
+displayRaceResults('patibayan1', raceData.PATIBAYAN1);
+displayRaceResults('patibayan2', raceData.PATIBAYAN2);
 
         
 
